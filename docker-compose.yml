@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Riot
+      MONGO_INITDB_ROOT_PASSWORD: Riot
+      MONGO_INITDB_DATABASE: admin
+   
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

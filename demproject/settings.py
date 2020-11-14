@@ -38,7 +38,7 @@ SECRET_KEY = 'l1^2&i#-8(4)rvi)#74%m^p*dn4vuh+oxi9bryeupced$bs42^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["13.209.3.139", "127.0.0.1"]
 
 
 # Application definition
@@ -89,19 +89,18 @@ WSGI_APPLICATION = 'demproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
-
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'demodatabase',
+        'CLIENT': {
+            'host': 'mongodb://127.0.0.1:27017',
+            'username': 'Riot',
+            'password': 'Riot',
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1',
+        }
+
     }
 }
 
