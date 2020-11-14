@@ -10,7 +10,9 @@ from demoapp.models import Datas
 
 # Create your views here.
 def result(request, summonerName):
+    summonerName = summonerName.lower()
     data = Datas.objects.get(summonerName=summonerName)
+    
     # user = db['{}_summoners'.format(summonerName)]
     # Tier = list(user.find({}))[0]['Tier']
     # print(Tier)

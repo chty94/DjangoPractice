@@ -5,6 +5,7 @@ from demoapp.models import Summoner
 # Create your views here.
 
 def check(request, summonerName):
+    summonerName = summonerName.lower()
     user = Summoner.objects.get(summonerName=summonerName)
 
     try:
