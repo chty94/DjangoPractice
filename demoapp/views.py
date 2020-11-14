@@ -120,7 +120,7 @@ def getMatchlist(summonerName):
     
     ACCOUNT_ID_URL = 'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}?api_key={}'
     MATCHLIST_URL = 'https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420&beginTime={}&api_key={}'
-
+    
     while True:
         try:
             acc_res = requests.get(ACCOUNT_ID_URL.format(summonerName, API_KEY))
@@ -137,10 +137,21 @@ def getMatchlist(summonerName):
             print('error in ACCOUNT_ID_URL')
             continue
 
+    # totalGames Check
+    totalGames = 0
+    temp_res = requests.get(MATCHLIST_URL.format(acc_entry['accountId'], begin, API_KEY))
+    temp_entry = temp_res.json()
+    totalGames = temp_entry['totalGames']
+
     matches = []
     while True:
         try:
-            ml_res = requests.get(MATCHLIST_URL.format(acc_entry['accountId'], begin, API_KEY))
+            if totalGames <= 100:
+                print('100개 이하 게임수')
+                ml_res = requests.get(MATCHLIST_URL.format(acc_entry['accountId'], begin, API_KEY))
+            else:
+                print('100개 초과 게임수')
+                ml_res = requests.get(f'https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{acc_entry["accountId"]}?queue=420&beginTime={begin}&endIndex={totalGames}&beginIndex={totalGames-100}&api_key={API_KEY}')
             sleep(DELAY)
             ml_entry = ml_res.json()
             
