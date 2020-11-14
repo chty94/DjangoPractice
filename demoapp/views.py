@@ -20,15 +20,24 @@ CHECK = 0
 def check(summonerName):    
     try:
         user = Summoner.objects.get(summonerName=summonerName)
-        if user:
-            print('before return')
+        if user.wait == -1:
+            print('기존 검색결과O')
+            user.delete()
+        elif user.wait != -1:
+            print('검색 대기줄O')
             global CHECK
             CHECK = 1
             return
     except:
-        print("이상없음")
+        print('기존 검색결과X')
     
-    wait = Summoner.objects.all().count()
+    terminatedUser = Summoner.objects.all()
+    count_terminated = 0
+    for k in list(terminatedUser):
+        if k.wait == -1:
+            count_terminated += 1
+
+    wait = Summoner.objects.all().count() - count_terminated
     newUser = Summoner()
     newUser.wait = wait
     newUser.summonerName = summonerName
@@ -298,6 +307,8 @@ def createDatas(summonerName):
 
 def search(request, summonerName):
     global CHECK, crollingpossible
+    summonerName = summonerName.lower()
+    
     # redundancy check and sequence check
     check(summonerName)
     if CHECK == 1:
@@ -318,29 +329,36 @@ def search(request, summonerName):
     fail = getMatches(summonerName)
 
     # Creating a datas with the matches
-    if len(fail) == 0:
-        Datas.objects.all().delete()
-        createDatas(summonerName)
-    else:
-        timer = 1
-        len_before = len(fail)
-        while fail:
-            print(fail, timer)
-            fail = getMatches_again(summonerName, fail, timer)
-            if len_before == len(fail):
-                timer += 0.1
-                if int(timer*10) == 27:
-                    timer = 2.6
-            else:
-                timer = 0.1
+    try:
+        if len(fail) == 0:
+            data = Datas.objects.get(summonerName=summonerName)
+            data.delete()
+            print('기존 결과값이 삭제되었습니다')
+            createDatas(summonerName)
+        else:
+            timer = 1
             len_before = len(fail)
+            while fail:
+                print(fail, timer)
+                fail = getMatches_again(summonerName, fail, timer)
+                if len_before == len(fail):
+                    timer += 0.1
+                    if int(timer*10) == 27:
+                        timer = 2.6
+                else:
+                    timer = 0.1
+                len_before = len(fail)
 
-        Datas.objects.all().delete()
+            data = Datas.objects.get(summonerName=summonerName)
+            data.delete()
+            print('기존 결과값이 삭제되었습니다')
+            createDatas(summonerName)
+    except:
         createDatas(summonerName)
 
-    user = Summoner.objects.get(wait = 0)
-    matches = Matches.objects.all()
 
+    # Organizing the result of <summonerName>/search 
+    user = Summoner.objects.get(wait = 0)
     result = {
         'summonerName': user.summonerName,
         'crolling': user.crolling,
@@ -350,7 +368,10 @@ def search(request, summonerName):
         'wait': user.wait,
     }
     
+    user.wait = -1
+    user.save(force_update=True)
+
+    matches = Matches.objects.all()
     matches.delete()
-    user.delete()
     
     return JsonResponse(result)
