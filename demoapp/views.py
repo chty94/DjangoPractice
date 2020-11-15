@@ -95,6 +95,10 @@ def crollTier(summonerName):
         driver.get(URL.format(summonerName=summonerName.replace(' ', '+')))
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         script = soup.select_one('#rankingHistory-1 > script:nth-child(3)')
+        wins = soup.select_one('#mainContent > div.row > div.medium-13.small-24.columns > div.box.box-padding-10.summoner-rankings > div.best-league > div > div.row > div > div > div.txt.mainRankingDescriptionText > div.winslosses > span.wins > span')
+        losses = soup.select_one('#mainContent > div.row > div.medium-13.small-24.columns > div.box.box-padding-10.summoner-rankings > div.best-league > div > div.row > div > div > div.txt.mainRankingDescriptionText > div.winslosses > span.losses > span')
+        lp = soup.select_one('#mainContent > div.row > div.medium-13.small-24.columns > div.box.box-padding-10.summoner-rankings > div.best-league > div > div.row > div > div > div.txt.mainRankingDescriptionText > div.league-points > span')
+
         match = re.compile("data: (.*)").search(str(script))
         datas = filterTimeStamps(json.loads(match.group(1)[:-1]))
     except:
@@ -111,6 +115,9 @@ def crollTier(summonerName):
         if k[1] != user.tier:
             user.start = [{'date': k[0], 'unix':int(k[0].timestamp()*1000)}]
             break
+    user.wins = wins.get_text()
+    user.losses = losses.get_text()
+    user.lp = lp.get_text()
 
     user.save(force_update=True)
     
@@ -376,6 +383,9 @@ def search(request, summonerName):
         'getMatchlist': user.getMatchlist,
         'getMatches': user.getMatches[1:-1],
         'createDatas': user.createDatas,
+        'wins': user.wins,
+        'losses': user.losses,
+        'lp': user.lp,
         'wait': user.wait,
     }
     
