@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'demoapp',
     'check',
     'result',
+    'league',
 ]
 
 MIDDLEWARE = [
