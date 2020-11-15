@@ -19,6 +19,9 @@ def check(request, summonerName):
         'getMatchlist': user.getMatchlist,
         'getMatches': temp,
         'createDatas': user.createDatas,
+        'wins': user.wins,
+        'losses': user.losses,
+        'lp': user.lp,
         'wait': user.wait,
     }
     
