@@ -22,6 +22,7 @@ def check(request, summonerName):
         'wins': user.wins,
         'losses': user.losses,
         'lp': user.lp,
+        'tier': user.tier,
         'wait': user.wait,
     }
     
