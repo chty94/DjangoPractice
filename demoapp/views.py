@@ -79,7 +79,7 @@ def filterTimeStamps(timestamps):
     return result
 def crollTier(summonerName):
     user = Summoner.objects.get(wait=0)
-    chrome_options=Options()
+    chrome_options=webdriver.ChromeOptions()
     display = Display(visible=0, size=(800, 800))
     display.start()
 
@@ -91,9 +91,13 @@ def crollTier(summonerName):
 
     try:
         URL = 'https://www.leagueofgraphs.com/ko/summoner/kr/{summonerName}'
+        print('Before the Webdriver.Chrome(path)')
         driver = webdriver.Chrome(path)
+        print('Before the driver.get')
         driver.get(URL.format(summonerName=summonerName.replace(' ', '+')))
+        print('Before the soup')
         soup = BeautifulSoup(driver.page_source, 'html.parser')
+        print('Before the script, wins, losses, lp')
         script = soup.select_one('#rankingHistory-1 > script:nth-child(3)')
         wins = soup.select_one('#mainContent > div.row > div.medium-13.small-24.columns > div.box.box-padding-10.summoner-rankings > div.best-league > div > div.row > div > div > div.txt.mainRankingDescriptionText > div.winslosses > span.wins > span')
         losses = soup.select_one('#mainContent > div.row > div.medium-13.small-24.columns > div.box.box-padding-10.summoner-rankings > div.best-league > div > div.row > div > div > div.txt.mainRankingDescriptionText > div.winslosses > span.losses > span')
@@ -101,13 +105,16 @@ def crollTier(summonerName):
 
         match = re.compile("data: (.*)").search(str(script))
         datas = filterTimeStamps(json.loads(match.group(1)[:-1]))
-    except:
+    except Exception as e:
         global crollingpossible
+        print('except에 진입하였음', e)
         user.delete()
         crollingpossible = 1
-        driver.close()
+        if driver:
+            driver.quit()
         return
-    driver.close()
+    if driver:
+        driver.quit()
 
     user.crolling = True
     user.tier = datas[-1][1]
