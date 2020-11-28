@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import mimetypes
 
 API_KEY = 'RGAPI-d9784396-2f0e-4de6-8f2a-3e0b399e19bc'
 DELAY = 1.1
@@ -25,6 +26,8 @@ FEATURES = ('kills', 'deaths', 'assists', 'largestKillingSpree', 'largestMultiKi
     'totalMinionsKilled', 'totalTimeCrowdControlDealt', 'champLevel'
     )
 
+mimetypes.add_type('text/css', '.css', True)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,7 +41,8 @@ SECRET_KEY = 'l1^2&i#-8(4)rvi)#74%m^p*dn4vuh+oxi9bryeupced$bs42^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13.209.3.139", "127.0.0.1"]
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ["13.209.3.139", "127.0.0.1"]
 
 
 # Application definition
@@ -54,6 +58,7 @@ INSTALLED_APPS = [
     'check',
     'result',
     'league',
+    'demproject',
 ]
 
 MIDDLEWARE = [
@@ -128,9 +133,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -143,3 +148,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+	'/var/www/static/',
+]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
