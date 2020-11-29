@@ -88,6 +88,11 @@ def result(request, summonerName):
     user = Summoner.objects.get(summonerName=summonerName)
     Tier = user.tier # type(Tier) : class 'int'
 
+    if Tier == 27:
+        tier = 26
+    elif Tier <= 5:
+        tier = 6
+
     client = MongoClient('localhost', 27017, username='Riot', password='Riot')
     model_ = client['userINFO']
     
