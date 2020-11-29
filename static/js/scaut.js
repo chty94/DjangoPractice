@@ -23,10 +23,9 @@ $(function () {
 function searchStart() {
     // Progress Section → Display: block
     var section = document.getElementById('progress-section');
-    section.style.display = 'block';
+    section.style.display = 'none';
     $('.wait').text('Please wait...');
     $('.match-count').text('');
-    $('#progress-section').css('display', 'block');
 
     // Variables
     var summonerName = document.getElementById("textSummonerName").value;
@@ -38,18 +37,32 @@ function searchStart() {
     document.getElementById("progress_2").src = "/static/img/icon_none.PNG";
     document.getElementById("progress_3").src = "/static/img/icon_none.PNG";
     document.getElementById("progress_4").src = "/static/img/icon_none.PNG";
-    $('.hand').css({'transform': 'rotate(-90deg)'});
+    $('.hand').css({
+        'transform': 'rotate(-90deg)'
+    });
     $('#wrapper').css('display', 'none');
     $('.view-detail').css('margin-bottom', '20px');
     $('#graph-row').css('display', 'none');
     destroyChart();
 
+    console.log('검색 시작');
     // First Request
     var search_api = summonerName + '/search';
     $.ajax({
         crossOrigin: true,
         dataType: "json",
-        url: search_api
+        url: search_api,
+        success: function (data) {
+            if (data.hasOwnProperty('result')) {
+                alert('not exist summone!\nsearch again please..');
+                clearInterval(progressing);
+                return;
+            }
+            else {
+                section.style.display = 'block';
+                $('#progress-section').css('display', 'block');
+            }
+        }
     });
 
     var crolling = false;
@@ -334,6 +347,9 @@ function predictByMeter(summonerName, lp, wins, losses, tier) {
             var tempDeg = -90;
             var inputVal = tempDeg + (Math.floor(180 * promotion));
 
+            // Edit Summary
+            $('.summary-content').text(data.summary);
+
             // promotion : tier
             if (promotion > 0.5) {
                 $('.d-tier').addClass('deactive');
@@ -377,7 +393,7 @@ function predictByMeter(summonerName, lp, wins, losses, tier) {
             }, 1000 / (60 * intervalRate));
 
             // create chart
-            var indicator = [ 0, 0, 0, 0, 0, 0, 0, 0 ];
+            var indicator = [0, 0, 0, 0, 0, 0, 0, 0];
             indicator[0] = data.user_info[0].win;
             indicator[1] = data.user_info[0].kills;
             indicator[2] = data.user_info[0].deaths;
@@ -405,7 +421,7 @@ function toggleGraphs() {
 
 // Create Graph
 function createGraphData(indicator, tier) {
-    var league = 16;    // = tier
+    var league = 16; // = tier
     var api = '/league/' + tier;
 
     // p: promotion, d: demotion
@@ -646,216 +662,728 @@ function createGraphData(indicator, tier) {
             }
 
             var pData = [
-                [
-                    { x: 0, y: pTempData[0][0] },
-                    { x: 1, y: pTempData[0][1] },
-                    { x: 2, y: pTempData[0][2] },
-                    { x: 3, y: pTempData[0][3] },
-                    { x: 4, y: pTempData[0][4] },
-                    { x: 5, y: pTempData[0][5] },
-                    { x: 6, y: pTempData[0][6] },
-                    { x: 7, y: pTempData[0][7] },
-                    { x: 8, y: pTempData[0][8] },
-                    { x: 9, y: pTempData[0][9] },
-                    { x: 10, y: pTempData[0][9] }
-                ], 
-                [
-                    { x: 0, y: pTempData[1][0] },
-                    { x: 1, y: pTempData[1][1] },
-                    { x: 2, y: pTempData[1][2] },
-                    { x: 3, y: pTempData[1][3] },
-                    { x: 4, y: pTempData[1][4] },
-                    { x: 5, y: pTempData[1][5] },
-                    { x: 6, y: pTempData[1][6] },
-                    { x: 7, y: pTempData[1][7] },
-                    { x: 8, y: pTempData[1][8] },
-                    { x: 9, y: pTempData[1][9] },
-                    { x: 10, y: pTempData[1][9] }
+                [{
+                        x: 0,
+                        y: pTempData[0][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[0][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[0][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[0][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[0][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[0][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[0][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[0][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[0][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[0][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[0][9]
+                    }
                 ],
-                [
-                    { x: 0, y: pTempData[2][0] },
-                    { x: 1, y: pTempData[2][1] },
-                    { x: 2, y: pTempData[2][2] },
-                    { x: 3, y: pTempData[2][3] },
-                    { x: 4, y: pTempData[2][4] },
-                    { x: 5, y: pTempData[2][5] },
-                    { x: 6, y: pTempData[2][6] },
-                    { x: 7, y: pTempData[2][7] },
-                    { x: 8, y: pTempData[2][8] },
-                    { x: 9, y: pTempData[2][9] },
-                    { x: 10, y: pTempData[2][9] }
+                [{
+                        x: 0,
+                        y: pTempData[1][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[1][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[1][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[1][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[1][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[1][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[1][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[1][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[1][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[1][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[1][9]
+                    }
                 ],
-                [
-                    { x: 0, y: pTempData[3][0] },
-                    { x: 1, y: pTempData[3][1] },
-                    { x: 2, y: pTempData[3][2] },
-                    { x: 3, y: pTempData[3][3] },
-                    { x: 4, y: pTempData[3][4] },
-                    { x: 5, y: pTempData[3][5] },
-                    { x: 6, y: pTempData[3][6] },
-                    { x: 7, y: pTempData[3][7] },
-                    { x: 8, y: pTempData[3][8] },
-                    { x: 9, y: pTempData[3][9] },
-                    { x: 10, y: pTempData[3][9] }
+                [{
+                        x: 0,
+                        y: pTempData[2][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[2][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[2][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[2][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[2][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[2][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[2][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[2][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[2][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[2][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[2][9]
+                    }
                 ],
-                [
-                    { x: 0, y: pTempData[4][0] },
-                    { x: 1, y: pTempData[4][1] },
-                    { x: 2, y: pTempData[4][2] },
-                    { x: 3, y: pTempData[4][3] },
-                    { x: 4, y: pTempData[4][4] },
-                    { x: 5, y: pTempData[4][5] },
-                    { x: 6, y: pTempData[4][6] },
-                    { x: 7, y: pTempData[4][7] },
-                    { x: 8, y: pTempData[4][8] },
-                    { x: 9, y: pTempData[4][9] },
-                    { x: 10, y: pTempData[4][9] }
+                [{
+                        x: 0,
+                        y: pTempData[3][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[3][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[3][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[3][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[3][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[3][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[3][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[3][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[3][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[3][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[3][9]
+                    }
                 ],
-                [
-                    { x: 0, y: pTempData[5][0] },
-                    { x: 1, y: pTempData[5][1] },
-                    { x: 2, y: pTempData[5][2] },
-                    { x: 3, y: pTempData[5][3] },
-                    { x: 4, y: pTempData[5][4] },
-                    { x: 5, y: pTempData[5][5] },
-                    { x: 6, y: pTempData[5][6] },
-                    { x: 7, y: pTempData[5][7] },
-                    { x: 8, y: pTempData[5][8] },
-                    { x: 9, y: pTempData[5][9] },
-                    { x: 10, y: pTempData[5][9] }
+                [{
+                        x: 0,
+                        y: pTempData[4][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[4][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[4][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[4][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[4][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[4][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[4][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[4][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[4][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[4][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[4][9]
+                    }
                 ],
-                [
-                    { x: 0, y: pTempData[6][0] },
-                    { x: 1, y: pTempData[6][1] },
-                    { x: 2, y: pTempData[6][2] },
-                    { x: 3, y: pTempData[6][3] },
-                    { x: 4, y: pTempData[6][4] },
-                    { x: 5, y: pTempData[6][5] },
-                    { x: 6, y: pTempData[6][6] },
-                    { x: 7, y: pTempData[6][7] },
-                    { x: 8, y: pTempData[6][8] },
-                    { x: 9, y: pTempData[6][9] },
-                    { x: 10, y: pTempData[6][9] }
+                [{
+                        x: 0,
+                        y: pTempData[5][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[5][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[5][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[5][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[5][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[5][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[5][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[5][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[5][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[5][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[5][9]
+                    }
                 ],
-                [
-                    { x: 0, y: pTempData[7][0] },
-                    { x: 1, y: pTempData[7][1] },
-                    { x: 2, y: pTempData[7][2] },
-                    { x: 3, y: pTempData[7][3] },
-                    { x: 4, y: pTempData[7][4] },
-                    { x: 5, y: pTempData[7][5] },
-                    { x: 6, y: pTempData[7][6] },
-                    { x: 7, y: pTempData[7][7] },
-                    { x: 8, y: pTempData[7][8] },
-                    { x: 9, y: pTempData[7][9] },
-                    { x: 10, y: pTempData[7][9] }
+                [{
+                        x: 0,
+                        y: pTempData[6][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[6][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[6][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[6][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[6][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[6][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[6][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[6][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[6][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[6][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[6][9]
+                    }
+                ],
+                [{
+                        x: 0,
+                        y: pTempData[7][0]
+                    },
+                    {
+                        x: 1,
+                        y: pTempData[7][1]
+                    },
+                    {
+                        x: 2,
+                        y: pTempData[7][2]
+                    },
+                    {
+                        x: 3,
+                        y: pTempData[7][3]
+                    },
+                    {
+                        x: 4,
+                        y: pTempData[7][4]
+                    },
+                    {
+                        x: 5,
+                        y: pTempData[7][5]
+                    },
+                    {
+                        x: 6,
+                        y: pTempData[7][6]
+                    },
+                    {
+                        x: 7,
+                        y: pTempData[7][7]
+                    },
+                    {
+                        x: 8,
+                        y: pTempData[7][8]
+                    },
+                    {
+                        x: 9,
+                        y: pTempData[7][9]
+                    },
+                    {
+                        x: 10,
+                        y: pTempData[7][9]
+                    }
                 ],
             ];
 
             var dData = [
-                [
-                    { x: 0, y: dTempData[0][0] },
-                    { x: 1, y: dTempData[0][1] },
-                    { x: 2, y: dTempData[0][2] },
-                    { x: 3, y: dTempData[0][3] },
-                    { x: 4, y: dTempData[0][4] },
-                    { x: 5, y: dTempData[0][5] },
-                    { x: 6, y: dTempData[0][6] },
-                    { x: 7, y: dTempData[0][7] },
-                    { x: 8, y: dTempData[0][8] },
-                    { x: 9, y: dTempData[0][9] },
-                    { x: 10, y: dTempData[0][9] }
-                ], 
-                [
-                    { x: 0, y: dTempData[1][0] },
-                    { x: 1, y: dTempData[1][1] },
-                    { x: 2, y: dTempData[1][2] },
-                    { x: 3, y: dTempData[1][3] },
-                    { x: 4, y: dTempData[1][4] },
-                    { x: 5, y: dTempData[1][5] },
-                    { x: 6, y: dTempData[1][6] },
-                    { x: 7, y: dTempData[1][7] },
-                    { x: 8, y: dTempData[1][8] },
-                    { x: 9, y: dTempData[1][9] },
-                    { x: 10, y: dTempData[1][9] }
+                [{
+                        x: 0,
+                        y: dTempData[0][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[0][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[0][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[0][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[0][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[0][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[0][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[0][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[0][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[0][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[0][9]
+                    }
                 ],
-                [
-                    { x: 0, y: dTempData[2][0] },
-                    { x: 1, y: dTempData[2][1] },
-                    { x: 2, y: dTempData[2][2] },
-                    { x: 3, y: dTempData[2][3] },
-                    { x: 4, y: dTempData[2][4] },
-                    { x: 5, y: dTempData[2][5] },
-                    { x: 6, y: dTempData[2][6] },
-                    { x: 7, y: dTempData[2][7] },
-                    { x: 8, y: dTempData[2][8] },
-                    { x: 9, y: dTempData[2][9] },
-                    { x: 10, y: dTempData[2][9] }
+                [{
+                        x: 0,
+                        y: dTempData[1][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[1][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[1][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[1][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[1][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[1][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[1][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[1][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[1][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[1][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[1][9]
+                    }
                 ],
-                [
-                    { x: 0, y: dTempData[3][0] },
-                    { x: 1, y: dTempData[3][1] },
-                    { x: 2, y: dTempData[3][2] },
-                    { x: 3, y: dTempData[3][3] },
-                    { x: 4, y: dTempData[3][4] },
-                    { x: 5, y: dTempData[3][5] },
-                    { x: 6, y: dTempData[3][6] },
-                    { x: 7, y: dTempData[3][7] },
-                    { x: 8, y: dTempData[3][8] },
-                    { x: 9, y: dTempData[3][9] },
-                    { x: 10, y: dTempData[3][9] }
+                [{
+                        x: 0,
+                        y: dTempData[2][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[2][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[2][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[2][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[2][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[2][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[2][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[2][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[2][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[2][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[2][9]
+                    }
                 ],
-                [
-                    { x: 0, y: dTempData[4][0] },
-                    { x: 1, y: dTempData[4][1] },
-                    { x: 2, y: dTempData[4][2] },
-                    { x: 3, y: dTempData[4][3] },
-                    { x: 4, y: dTempData[4][4] },
-                    { x: 5, y: dTempData[4][5] },
-                    { x: 6, y: dTempData[4][6] },
-                    { x: 7, y: dTempData[4][7] },
-                    { x: 8, y: dTempData[4][8] },
-                    { x: 9, y: dTempData[4][9] },
-                    { x: 10, y: dTempData[4][9] }
+                [{
+                        x: 0,
+                        y: dTempData[3][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[3][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[3][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[3][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[3][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[3][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[3][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[3][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[3][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[3][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[3][9]
+                    }
                 ],
-                [
-                    { x: 0, y: dTempData[5][0] },
-                    { x: 1, y: dTempData[5][1] },
-                    { x: 2, y: dTempData[5][2] },
-                    { x: 3, y: dTempData[5][3] },
-                    { x: 4, y: dTempData[5][4] },
-                    { x: 5, y: dTempData[5][5] },
-                    { x: 6, y: dTempData[5][6] },
-                    { x: 7, y: dTempData[5][7] },
-                    { x: 8, y: dTempData[5][8] },
-                    { x: 9, y: dTempData[5][9] },
-                    { x: 10, y: dTempData[5][9] }
+                [{
+                        x: 0,
+                        y: dTempData[4][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[4][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[4][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[4][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[4][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[4][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[4][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[4][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[4][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[4][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[4][9]
+                    }
                 ],
-                [
-                    { x: 0, y: dTempData[6][0] },
-                    { x: 1, y: dTempData[6][1] },
-                    { x: 2, y: dTempData[6][2] },
-                    { x: 3, y: dTempData[6][3] },
-                    { x: 4, y: dTempData[6][4] },
-                    { x: 5, y: dTempData[6][5] },
-                    { x: 6, y: dTempData[6][6] },
-                    { x: 7, y: dTempData[6][7] },
-                    { x: 8, y: dTempData[6][8] },
-                    { x: 9, y: dTempData[6][9] },
-                    { x: 10, y: dTempData[6][9] }
+                [{
+                        x: 0,
+                        y: dTempData[5][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[5][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[5][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[5][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[5][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[5][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[5][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[5][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[5][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[5][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[5][9]
+                    }
                 ],
-                [
-                    { x: 0, y: dTempData[7][0] },
-                    { x: 1, y: dTempData[7][1] },
-                    { x: 2, y: dTempData[7][2] },
-                    { x: 3, y: dTempData[7][3] },
-                    { x: 4, y: dTempData[7][4] },
-                    { x: 5, y: dTempData[7][5] },
-                    { x: 6, y: dTempData[7][6] },
-                    { x: 7, y: dTempData[7][7] },
-                    { x: 8, y: dTempData[7][8] },
-                    { x: 9, y: dTempData[7][9] },
-                    { x: 10, y: dTempData[7][9] }
+                [{
+                        x: 0,
+                        y: dTempData[6][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[6][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[6][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[6][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[6][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[6][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[6][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[6][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[6][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[6][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[6][9]
+                    }
+                ],
+                [{
+                        x: 0,
+                        y: dTempData[7][0]
+                    },
+                    {
+                        x: 1,
+                        y: dTempData[7][1]
+                    },
+                    {
+                        x: 2,
+                        y: dTempData[7][2]
+                    },
+                    {
+                        x: 3,
+                        y: dTempData[7][3]
+                    },
+                    {
+                        x: 4,
+                        y: dTempData[7][4]
+                    },
+                    {
+                        x: 5,
+                        y: dTempData[7][5]
+                    },
+                    {
+                        x: 6,
+                        y: dTempData[7][6]
+                    },
+                    {
+                        x: 7,
+                        y: dTempData[7][7]
+                    },
+                    {
+                        x: 8,
+                        y: dTempData[7][8]
+                    },
+                    {
+                        x: 9,
+                        y: dTempData[7][9]
+                    },
+                    {
+                        x: 10,
+                        y: dTempData[7][9]
+                    }
                 ],
             ];
             createChart(pData[0], dData[0], indicator[0], 'Wins');
@@ -1016,7 +1544,7 @@ function createChart(promotionData, demotionData, indicator, category) {
 
 // Destroy Charts
 function destroyChart() {
-    if(graphs){
+    if (graphs) {
         for (var i = 0; i < graphs.length; i++) {
             graphs[i].update();
             graphs[i].destroy();

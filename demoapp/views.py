@@ -345,7 +345,8 @@ def search(request, summonerName):
     crollTier(summonerName)
     if crollingpossible == 1:
         crollingpossible = 0
-        return HttpResponse("Fail") 
+        return JsonResponse({'result':'Fail'}) 
+
 
     # Getting Matchlist of User
     getMatchlist(summonerName)

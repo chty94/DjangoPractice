@@ -60,6 +60,13 @@ header.masthead h1 {
 .showcase .showcase-img {
     min-height: 30rem;
     background-size: cover;
+    background-position: center;
+}
+
+.showcase .showcase-img-t {
+    min-height: 30rem;
+    background-size: cover;
+    background-position: right;
 }
 
 @media (min-width: 768px) {
