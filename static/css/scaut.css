@@ -1,0 +1,474 @@
+body {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+header.masthead {
+    position: relative;
+    background-color: #343a40;
+    background: url("../img/lol-masthead.jpg") no-repeat center center;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+header.masthead h1 {
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    header.masthead {
+        padding-top: 12rem;
+        padding-bottom: 12rem;
+    }
+
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+.showcase {
+    background-color: #020406;
+    color: #f0e6d2;
+}
+
+.showcase .showcase-text {
+    padding: 3rem;
+}
+
+.showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    .showcase .showcase-text {
+        padding: 7rem;
+    }
+}
+
+.features-icons {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+    color: #f0e6d2;
+}
+
+.features-icons .features-icons-item {
+    max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+}
+
+.features-icons .features-icons-item:hover .features-icons-icon i {
+    font-size: 5rem;
+}
+
+.testimonials {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+    color: #f0e6d2;
+}
+
+.testimonials .testimonial-item {
+    max-width: 18rem;
+}
+
+.testimonials .testimonial-item img {
+    max-width: 12rem;
+    box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
+.call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url("../img/lol-masttail.jpg") no-repeat center center;
+    background-size: cover;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.call-to-action .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+footer.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+#scaut-logo {
+    width: 100px;
+    position: absolute;
+    bottom: 16px;
+}
+
+li.list-inline-item a {
+    color: #128498;
+}
+
+i.fab {
+    color: #128498;
+}
+
+i.fab:hover {
+    color: #0f7283;
+}
+
+img.feature-icons-img:hover {
+    width: 93px;
+}
+
+/* Progress Bar */
+#progress-section {
+    display: block;
+    padding-top: 4rem;
+}
+
+.progressbar {
+    padding: 0;
+}
+
+.progressbar li {
+    list-style-type: none;
+    float: left;
+    width: 25%;
+    position: relative;
+    text-align: center;
+}
+
+progress {
+    position: absolute;
+    width: 100%;
+    height: 11px;
+    top: 4px;
+    background-color: #474C4F;
+
+}
+
+p.wait {
+    text-align: center;
+    margin: 0;
+    padding-bottom: 20px;
+    font-size: 1.5rem;
+    color: #C8AA6E;
+}
+
+.pb {
+    width: 82%;
+    position: relative;
+    margin: 0 auto;
+}
+
+progress::-webkit-progress-value {
+    background: #C8AA6E;
+}
+
+progress::-webkit-progress-bar {
+    background: #474C4F;
+}
+
+.progressbar li img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto 10px auto;
+    color: #128498;
+}
+
+/* Alert Customize */
+.swal-button {
+    padding: 7px 19px;
+    border-radius: 5px;
+    background-color: #128498;
+    font-size: 12px;
+    border: 1px solid #128498;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+swal-button:not([disabled]):hover {
+    background-color: #128498
+}
+
+.swal-button:focus {
+    box-shadow: none;
+}
+
+.swal-button:not([disabled]):hover {
+    background-color: #0f7283
+}
+
+/* Result Section */
+#wrapper {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#wrapper .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#wrapper .overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: black;
+    opacity: 0.7;
+}
+
+#wrapper .part {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    color: white;
+    z-index: 5;
+}
+
+.d-tier, .p-tier {
+    width: 150px;
+    text-align: center;
+}
+
+.tier-desc {
+    text-align: center;
+    line-height: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.d-tier img, .p-tier img {
+    width: 150px;
+}
+
+.active {
+    filter: brightness(100%);
+}
+
+.deactive {
+    filter: brightness(50%);
+}
+
+.tiermeter {
+    width: 280px;
+    height: 140px;
+    position: relative;
+    top: 50px;
+    background: radial-gradient(farthest-corner at 50% 90%, #091218 55%, #128498);
+    border-top-left-radius: 140px;
+    border-top-right-radius: 140px;
+    border: 5px solid #1791b4;
+    border-bottom: 0;
+    margin: 0 25px;
+}
+
+.tiermeter .hand {
+    width: 7.6px;
+    position: absolute;
+    left: calc(50%);
+    top: 5px;
+
+    transform: rotate(-90deg);
+    transform-origin: center bottom;
+}
+
+.summoner-tier {
+    display: flex;
+    flex-direction: column;
+    margin-right: 25px;
+}
+
+.summoner-info {
+    font-size: .9em;
+    font-weight: bold;
+}
+
+.summoner-tier .now-tier {
+    width: 80px;
+    height: 91px;
+}
+
+/* Summary */
+.summary {
+    margin-top: 15px;
+    width: 760px;
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-title {
+    text-align: center;
+    color: #C8AA6E;
+    font-size: 1.3em;
+}
+
+.summary-desc {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: #F0E6D2;
+    text-align: center;
+}
+
+.summary-desc p {
+    text-align: justify;
+    width: 100%;
+}
+
+/* View Details */
+.view-detail {
+    font-size: 0.9em;
+    color: #F0E6D2;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Chart */
+.chartlists {
+    padding: 0 0 15px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 15px;
+}
+
+.chart {
+    width: 200px;
+}
+
+.data-name {
+    padding-bottom: 5px;
+    font-size: .7em;
+}
+
+@media all and (min-width:720px) and (max-width:880px) {
+    .summary-desc p {
+        text-align: justify;
+        width: 85%;
+    }
+
+    .chartlists {
+        padding: 0 0 15px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 15px;
+        row-gap: 15px;
+    }
+}
+
+/* 모바일 가로, 테블릿 세로 (해상도 480px ~ 767px)*/
+@media all and (max-width:719px) {
+    .prediction div {
+        margin: 0 1px;
+    }
+
+    .demotion-tier {
+        width: 60px;
+    }
+
+    .tier img {
+        width: 80px;
+    }
+
+    .d-tier img, .p-tier img {
+        width: 80px;
+    }
+
+    .tier-desc {
+        font-size: .8em;
+        text-align: center;
+        line-height: 18px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .tiermeter {
+        width: 160px;
+        height: 80px;
+        position: relative;
+        top: 20px;
+        background: radial-gradient(farthest-corner at 50% 90%, #091218 55%, #128498);
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+        border: 5px solid #1791b4;
+        border-bottom: 0;
+    }
+
+    .tiermeter .hand {
+        width: 4.07px;
+        position: absolute;
+        left: calc(50%);
+        top: 5px;
+
+        transform: rotate(-90deg);
+        transform-origin: center bottom;
+    }
+
+    .summary-title {
+        text-align: center;
+        color: #C8AA6E;
+        font-size: 1.2em;
+    }
+
+    .summary-desc {
+        font-size: 0.9em;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        color: #F0E6D2;
+        text-align: center;
+    }
+
+    .summary-desc p {
+        text-align: justify;
+        width: 85%;
+    }
+
+    .chartlists {
+        padding: 0 0 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 15px;
+        row-gap: 15px;
+    }
+}
