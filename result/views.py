@@ -32,7 +32,10 @@ def create_body(prediction, myDatas, datas, weights):
     else:
         body += "Even though the results is disappointing, there are still things you did well. "
 
-    columnsToDrop = ['promotion'] + [w[0] for w in weights[8:]]
+    # columnsToDrop = ['promotion'] + [w[0] for w in weights[8:]]
+    columnsToDrop = ['promotion', 'totalDamageDealtToChampions', 'goldSpent', 'largestMultiKill', 'totalTimeCrowdControlDealt', 
+    'missing', 'gameCount', 'totalDamageTaken']
+
     print(columnsToDrop)
     promotedGroup = datas[datas['promotion'] == True].drop(columnsToDrop, axis=1)
     demotedGroup = datas[datas['promotion'] == False].drop(columnsToDrop, axis=1)
