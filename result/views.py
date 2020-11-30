@@ -61,8 +61,8 @@ def create_summary(prediction, myDatas, datas, model, cols):
     weights = sorted(list(zip(cols, model.coef_)), key=lambda x: -abs(x[1]))
     for col, w in weights:
         if w < 0:
-            myDatas[col] *= -1
-            datas[col] *= -1
+            myDatas[col] = 1 - myDatas[col]
+            datas[col] = 1 - datas[col]
 
     intro = ""
 
