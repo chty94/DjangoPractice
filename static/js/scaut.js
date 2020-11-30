@@ -5,6 +5,12 @@ $(document).ready(function () {
     $('#wrapper').css('display', 'none');
     $('#graph-row').css('display', 'none');
     $('.view-detail').css('margin-bottom', '20px');
+
+    $("#textSummonerName").keyup(function (e) {
+        if (e.keyCode == 13) {
+            searchStart();
+        }
+    });
 });
 
 // Copy sCAUt.GG URL
@@ -30,6 +36,10 @@ function searchStart() {
     // Variables
     var summonerName = document.getElementById("textSummonerName").value;
     var progress = document.getElementById("pbar");
+    // show progress section
+    section.style.display = 'block';
+    $('#progress-section').css('display', 'block');
+
     var width = 1;
     // Reset Datas
     progress.value = 0;
@@ -41,8 +51,9 @@ function searchStart() {
         'transform': 'rotate(-90deg)'
     });
     $('#wrapper').css('display', 'none');
-    $('.view-detail').css('margin-bottom', '20px');
     $('#graph-row').css('display', 'none');
+    $('.view-detail').css('margin-bottom', '20px');
+    $('.view-detail').text('View Details');
     destroyChart();
 
     console.log('검색 시작');
@@ -51,18 +62,7 @@ function searchStart() {
     $.ajax({
         crossOrigin: true,
         dataType: "json",
-        url: search_api,
-        success: function (data) {
-            if (data.hasOwnProperty('result')) {
-                alert('not exist summone!\nsearch again please..');
-                clearInterval(progressing);
-                return;
-            }
-            else {
-                section.style.display = 'block';
-                $('#progress-section').css('display', 'block');
-            }
-        }
+        url: search_api
     });
 
     var crolling = false;
@@ -82,12 +82,16 @@ function searchStart() {
     var progress_3_finish = false;
     var progress_4_finish = false;
 
+    // not exist flag
+    var ajaxEnd = false;
+
     var i = 0;
     var check_api = summonerName + '/check';
     var progressing = setInterval(function () {
         if (runModel == true) {
             clearInterval(progressing);
         }
+
         $.ajax({
             crossOrigin: true,
             dataType: "json",
@@ -189,10 +193,29 @@ function searchStart() {
                 }
                 console.log(crolling, getMatchlist, getMatches, runModel, countMatch, totalMatch);
                 console.log('runModel(createDatas): ' + runModel);
+            },
+            error: function (request, status, error) {
+                if (!ajaxEnd) {
+                    ajaxEnd = true;
+                    var alert = function(msg){
+                        swal({
+                            title: '',
+                            text: msg
+                        });
+                    }
+                    alert('Not exist summoner, search again please!!!');
+                    clearInterval(progressing);
+                    // hide progress
+                    section.style.display = 'none';
+                    $('#progress-section').css('display', 'none');
+                    return;
+                }
             }
         });
+
         i++;
         console.log(i);
+
     }, 500);
 }
 
