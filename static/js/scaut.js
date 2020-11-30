@@ -5,6 +5,7 @@ $(document).ready(function () {
     $('#wrapper').css('display', 'none');
     $('#graph-row').css('display', 'none');
     $('.view-detail').css('margin-bottom', '20px');
+    $('.explain').css('display', 'none');
 
     $("#textSummonerName").keyup(function (e) {
         if (e.keyCode == 13) {
@@ -417,8 +418,8 @@ function predictByMeter(summonerName, lp, wins, losses, tier) {
 
             // create chart
             var indicator = [0, 0, 0, 0, 0, 0, 0, 0];
-            indicator[0] = data.user_info[0].win;
-            indicator[1] = data.user_info[0].kills;
+            indicator[0] = data.user_info[0].win;       // 0~1 사이값 유저 result
+            indicator[1] = data.user_info[0].kills;     // 0~1 사이값 유저 result
             indicator[2] = data.user_info[0].deaths;
             indicator[3] = data.user_info[0].assists;
             indicator[4] = data.user_info[0].killingSprees;
@@ -435,9 +436,11 @@ function toggleGraphs() {
     if ($('#graph-row').css('display') == 'flex') {
         $('.view-detail').css('margin-bottom', '20px');
         $('.view-detail').text('View Details');
+        $('.explain').css('display', 'none');
     } else {
         $('.view-detail').css('margin-bottom', '0');
         $('.view-detail').text('Hide');
+        $('.explain').css('display', 'flex');
     }
     $('#graph-row').slideToggle();
 }

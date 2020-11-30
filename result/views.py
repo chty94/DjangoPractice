@@ -59,15 +59,17 @@ def create_body(prediction, myDatas, datas, weights):
     return body
 def create_summary(prediction, myDatas, datas, model, cols):
     weights = sorted(list(zip(cols, model.coef_)), key=lambda x: -abs(x[1]))
-    print(myDatas.head())
-    print(datas.head())
+    print(myDatas.head().deaths)
+    print(datas.head().deaths)
+    print(datas[datas['promotion']==True].quantile(0.5))
     for col, w in weights:
         if w < 0:
             print(col)
             myDatas[col] = 1 - myDatas[col]
             datas[col] = 1 - datas[col]
-    print(myDatas.head())
-    print(datas.head())
+    print(myDatas.head().deaths)
+    print(datas.head().deaths)
+    print(datas[datas['promotion']==True].quantile(0.5))
 
     intro = ""
 
