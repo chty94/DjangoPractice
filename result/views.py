@@ -80,9 +80,12 @@ def create_summary(prediction, myDatas, datas, model, cols):
         intro += "Congratulations! According to our analysis you are projected to be promoted! "
     else:
         intro += "Unfortunately, unless you improve your game you are in danger of getting demoted! "
-
-    if myDatas['gameCount'].iloc[0] < datas['gameCount'].mean():
+    
+    print(myDatas['gameCount'].iloc[0])
+    print(myDatas['gameCount'])
+    if 0 < myDatas['gameCount'].iloc[0] <= 10:
         intro += "But bear in mind that it is still too early for us to judge your performance since you have only played {} games. ".format(myDatas['gameCount'].iloc[0])
+        
     else:
         if 0.5 <= prediction < 0.6:
             intro += "However, it is still early to feel confident yet. "
