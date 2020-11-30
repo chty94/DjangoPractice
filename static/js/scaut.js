@@ -156,7 +156,16 @@ function searchStart() {
                             progress.value = width;
                         }
 
-                        $('.match-count').text('(' + countMatch + '/' + totalMatch + ')');
+                        var tempCal;
+                        try {
+                            tempCal = (countMatch / totalMatch) * 100;
+                            $('.match-count').text('( ' + Math.floor(tempCal) + '%)');
+                        }
+                        catch(e) {
+                            $('.match-count').text('(0%)');
+                        }
+
+                        // $('.match-count').text('(' + countMatch + '/' + totalMatch + ')');
 
                         if (width >= 65) {
                             if (Number(countMatch) == Number(totalMatch)) {
