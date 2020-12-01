@@ -102,9 +102,9 @@ def result(request, summonerName):
     Tier = user.tier # type(Tier) : class 'int'
 
     if Tier == 27:
-        tier = 26
+        Tier = 26
     elif Tier <= 5:
-        tier = 6
+        Tier = 6
 
     client = MongoClient('localhost', 27017, username='Riot', password='Riot')
     model_ = client['userINFO']
@@ -115,7 +115,7 @@ def result(request, summonerName):
     testDf = pd.DataFrame(data.metadata)
 
     # load the model from disk
-    filename = '{}_500_model.sav'.format(tier)
+    filename = '{}_500_model.sav'.format(Tier)
     loaded_model = joblib.load(os.getcwd() + "/result/Regression/" + filename)
     x_cols = testDf.drop(['accountId', 'goldEarned', 'champLevel', 'loss'], axis=1).columns.tolist()
     x_test = testDf[x_cols]
