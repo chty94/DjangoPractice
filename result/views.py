@@ -115,7 +115,7 @@ def result(request, summonerName):
     testDf = pd.DataFrame(data.metadata)
 
     # load the model from disk
-    filename = '{}_500_model.sav'.format(Tier)
+    filename = '{}_500_model.sav'.format(tier)
     loaded_model = joblib.load(os.getcwd() + "/result/Regression/" + filename)
     x_cols = testDf.drop(['accountId', 'goldEarned', 'champLevel', 'loss'], axis=1).columns.tolist()
     x_test = testDf[x_cols]
